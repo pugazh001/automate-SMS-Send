@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Table with Pagination</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .label-box {
+            margin-right: 10px;
+        }
+
+        .pagination {
+            justify-content: center;
+        }
+
+        .table-responsive {
+            margin-top: 20px;
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            flex-wrap: wrap; /* Adjusts for smaller screens */
+        }
+
+        .rows-per-page {
+            display: flex;
+            align-items: center;
+        }
+
+        .rows-per-page select {
+            margin-left: 5px;
+            padding: 3px 5px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 576px) {
+            .pagination-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .rows-per-page {
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+
+            .pagination {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row my-3">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <!-- Title Message Input -->
+                <input type="text" class="form-control label-box" placeholder="Title Message" aria-label="Title Message" id="titleMessage">
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <!-- Subtitle Message Input -->
+                <input type="text" class="form-control label-box" placeholder="Subtitle Message" aria-label="Subtitle Message" id="subtitleMessage">
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12 d-flex align-items-center">
+                <!-- Select All Checkbox -->
+                <div class="form-check mx-3">
+                    <input class="form-check-input" type="checkbox" id="selectAll">
+                    <label class="form-check-label" for="selectAll">Select All</label>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12 d-flex align-items-center">
+                <!-- Send Notification Button -->
+                <button class="btn btn-primary" id="sendNotification">Send Notification</button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Contact Number</th>
+                        <th>Native</th>
+                        <th>Reminder time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Dynamic rows will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-container">
+            <div class="rows-per-page">
+                Rows per page:
+                <select id="rowsPerPageSelect">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </select>
+            </div>
+            <div class="pagination">
+                <ul class="pagination">
+                    <!-- Pagination will be inserted here -->
+                </ul>
+            </div>
+            <div id="rowInfo"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample data
+        const data = [
+            { id: 1, name: 'Aayash', contact: '+919786172510', native: 'Trichy',time:3 },
+            { id: 2, name: 'John Doe', contact: '+917868089150', native: 'Chennai' ,time:6},
+            // Add more sample data here
+        ];
+
+        let rowsPerPage = 5;
+        let currentPage = 1;
+
+        document.getElementById('rowsPerPageSelect').addEventListener('change', function () {
+            rowsPerPage = parseInt(this.value);
+            currentPage = 1; // Reset to the first page
+            generateTableRows();
+            generatePagination();
+        });
+
+        // Generate table rows
+        function generateTableRows() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            const rows = data.slice(start, end).map((item, index) => 
+                `<tr>
+                    <td>${start + index + 1}</td>
+                    <td>${item.name}</td>
+                    <td>${item.contact}</td>
+                    <td>${item.native}</td>
+                     <td>${item.time}</td>
+                    <td>
+                        <input class="form-check-input action-checkbox" type="checkbox" data-id="${item.id}" data-name="${item.name}" data-contact="${item.contact}" data-time="${item.time}">
+                    </td>
+                </tr>`
+            ).join('');
+
+            tableBody.innerHTML = rows;
+            updateRowInfo(start + 1, Math.min(end, data.length));
+        }
+
+        // Update row information
+        function updateRowInfo(start, end) {
+            document.getElementById('rowInfo').textContent = `${start}–${end} of ${data.length}`;
+        }
+
+        // Generate pagination
+        function generatePagination() {
+            const pagination = document.querySelector('.pagination ul');
+            pagination.innerHTML = '';
+
+            const pageCount = Math.ceil(data.length / rowsPerPage);
+            for (let i = 1; i <= pageCount; i++) {
+                const pageItem = document.createElement('li');
+                pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                pageItem.addEventListener('click', () => {
+                    currentPage = i;
+                    generateTableRows();
+                    generatePagination();
+                });
+                pagination.appendChild(pageItem);
+            }
+        }
+
+        // Select all checkboxes
+        document.getElementById('selectAll').addEventListener('change', function () {
+            const checkboxes = document.querySelectorAll('.action-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+        // Send Notification
+        document.getElementById('sendNotification').addEventListener('click', function () {
+            const selectedRows = [];
+            document.querySelectorAll('.action-checkbox:checked').forEach(checkbox => {
+                selectedRows.push({
+                    id: checkbox.getAttribute('data-id'),
+                    name: checkbox.getAttribute('data-name'),
+                    contact: checkbox.getAttribute('data-contact'),
+                    time:checkbox.getAttribute('data-time')
+                });
+            });
+
+            if (selectedRows.length === 0) {
+                alert('Please select at least one contact to send the notification.');
+                return;
+            }
+
+            const titleMessage = document.getElementById('titleMessage').value;
+            const subtitleMessage = document.getElementById('subtitleMessage').value;
+
+            const payload = {
+                titleMessage,
+                subtitleMessage,
+                clients: selectedRows,
+                
+            };
+              console.log(payload);
+              
+            // Sending the selected data to the backend via fetch API
+            fetch('http://localhost:3000/api/send-notification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Notification sent successfully!');
+            })
+            .catch((error) => {
+                console.log('Error:', error);
+            });
+        });
+
+        // Initial load
+        generateTableRows();
+        generatePagination();
+    </script>
+</body>
+</html>

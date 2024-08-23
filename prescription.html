@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .container-fluid {
+            height: 100%;
+            padding: 0;
+        }
+        .card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-body {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .custom-form-control {
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .form-row .form-group {
+            flex: 1 1 150px; /* Adjust the width of the form fields */
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Prescription</h5>
+            </div>
+            <div class="card-body">
+                <form id="prescriptionForm">
+                    <!-- Existing form fields -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="entryType">Entry Type</label>
+                                <select id="entryType" class="form-control" >
+                                    <option>Prescription</option>
+                                    <!-- Add more options if needed -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="entryNo">Entry No</label>
+                                <input type="text" id="entryNo" class="form-control" value="PCP/824/24-25">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="uhid">UHID</label>
+                                <input type="text" id="uhid" class="form-control" value="NLH/6257-KAVITHA">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="consultBy">Consult By</label>
+                                <select id="consultBy" class="form-control">
+                                    <option>Dr. P. VIJAY SURENDAR M.B.B.S., D.A.</option>
+                                    <!-- Add more options if needed -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="patName">Pat. Name</label>
+                                <input type="text" id="patName" class="form-control" value="KAVITHA">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="referredBy">Referred By</label>
+                                <select id="referredBy" class="form-control">
+                                    <option>pugazh</option>
+                                    <option>Dr. P. VIJAY SURENDAR M.B.B.S., D.A.</option>
+                                    <!-- Add more options if needed -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" class="form-control" value="44/55 VENAYAGAR STREET, THURAIYUR, THURAIYUR (TK)">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="disease">Disease</label>
+                                <select id="disease" class="form-control">
+                                    <option>DIABETES MELLITUS</option>
+                                    <!-- Add more options if needed -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="place">Place</label>
+                                <input type="text" id="place" class="form-control" value="THURAIYUR">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cellNo">Cell No</label>
+                                <input type="text" id="cellNo" class="form-control" value="9344778730">
+                            </div>
+                        </div>
+                        <div class="col-md-6 custom-form-control">
+                            <div class="form-group">
+                                <label for="sex">Sex</label>
+                                <input type="text" id="sex" class="form-control" value="Female">
+                            </div>
+                            <div class="form-group">
+                                <label for="age">Age</label>
+                                <input type="text" id="age" class="form-control" value="42">
+                            </div>
+                            <div class="form-group">
+                                <label for="bloodGroup">B. Group</label>
+                                <input type="text" id="bloodGroup" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mt-4">Medicine Details</h5>
+
+                    <!-- Table to display medicine details -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>UHID</th>
+                                <th>Medicine</th>
+                                <th>Dose</th>
+                                <th>Days</th>
+                                <th>Qty</th>
+                                <th>Usage</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody id="medicineTableBody">
+                            <!-- Existing rows -->
+                            <tr>
+                                <td>1</td>
+                                <td></td>
+                                <td>GLYCOMET GP 2</td>
+                                <td>1 - 0 - 1</td>
+                                <td>30</td>
+                                <td>60</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td></td>
+                                <td>SITARED-M XR 100/500</td>
+                                <td>1 - 0 - 1</td>
+                                <td>30</td>
+                                <td>60</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td ></td>
+                                <td>TORVAS 10 MG TAB</td>
+                                <td>0 - 0 - 1</td>
+                                <td>30</td>
+                                <td>30</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Form to add new medicine -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="medicine">Medicine</label>
+                            <input type="text" id="medicine" class="form-control" placeholder="Enter medicine name">
+                        </div>
+                        <div class="form-group">
+                            <label for="dose">Dose</label>
+                            <input type="text" id="dose" class="form-control" placeholder="Enter dose">
+                        </div>
+                        <div class="form-group">
+                            <label for="days">Days</label>
+                            <input type="number" id="days" class="form-control" placeholder="Enter number of days">
+                        </div>
+                        <div class="form-group">
+                            <label for="qty">Qty</label>
+                            <input type="number" id="qty" class="form-control" placeholder="Enter quantity">
+                        </div>
+                        <div class="form-group">
+                            <label for="usage">Usage</label>
+                            <input type="text" id="usage" class="form-control" placeholder="Enter usage">
+                        </div>
+                        <div class="form-group">
+                            <label for="note">Note</label>
+                            <input type="text" id="note" class="form-control" placeholder="Enter note">
+                        </div>
+                    </div>
+                    <button type="button" id="addMedicine" class="btn btn-primary">Add Medicine</button>
+
+                    <div class="col-md-6 custom-form-control mt-4">
+                        <div class="form-group">
+                            <label for="totalQty">Total Qty</label>
+                            <input type="text" id="totalQty" class="form-control" value="150">
+                        </div>
+                        <div class="form-group">
+                            <label for="nextVisitAfter">Next Visit After</label>
+                            <input type="text" id="nextVisitAfter" class="form-control" value="5 Days">
+                        </div>
+                        <div class="form-group">
+                            <label for="nextVisitDate">Next Visit Date</label>
+                            <input type="date" id="nextVisitDate" class="form-control">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('addMedicine').addEventListener('click', function() {
+            // Get the values from the form
+            const uhid = document.getElementById('uhid').value;
+            const medicine = document.getElementById('medicine').value;
+            const dose = document.getElementById('dose').value;
+            const days = document.getElementById('days').value;
+            const qty = document.getElementById('qty').value;
+            const usage = document.getElementById('usage').value;
+            const note = document.getElementById('note').value;
+
+            // Create a new row in the medicine table
+            const tableBody = document.getElementById('medicineTableBody');
+            const rowCount = tableBody.rows.length + 1;
+
+            const newRow = `
+                <tr>
+                    <td>${rowCount}</td>
+                    <td>${uhid}</td>
+                    <td>${medicine}</td>
+                    <td>${dose}</td>
+                    <td>${days}</td>
+                    <td>${qty}</td>
+                    <td>${usage}</td>
+                    <td>${note}</td>
+                </tr>
+            `;
+
+            tableBody.insertAdjacentHTML('beforeend', newRow);
+
+            // Clear the input fields
+            document.getElementById('medicine').value = '';
+            document.getElementById('dose').value = '';
+            document.getElementById('days').value = '';
+            document.getElementById('qty').value = '';
+            document.getElementById('usage').value = '';
+            document.getElementById('note').value = '';
+        });
+
+        document.getElementById('prescriptionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const entryType = document.getElementById('entryType').value;
+            const entryNo = document.getElementById('entryNo').value;
+            const uhid = document.getElementById('uhid').value;
+            const consultBy = document.getElementById('consultBy').value;
+            const patName = document.getElementById('patName').value;
+            const referredBy = document.getElementById('referredBy').value;
+            const address = document.getElementById('address').value;
+            const disease = document.getElementById('disease').value;
+            const place = document.getElementById('place').value;
+            const cellNo = document.getElementById('cellNo').value;
+            const sex = document.getElementById('sex').value;
+            const age = document.getElementById('age').value;
+            const bloodGroup = document.getElementById('bloodGroup').value;
+            const totalQty = document.getElementById('totalQty').value;
+            const nextVisitAfter = document.getElementById('nextVisitAfter').value;
+            const nextvisitdate= document.getElementById('nextVisitDate').value;
+
+            const medicines = [];
+            const rows = document.getElementById('medicineTableBody').rows;
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const medicineData = {
+                    medicine: row.cells[1].textContent,
+                    dose: row.cells[2].textContent,
+                    days: row.cells[3].textContent,
+                    qty: row.cells[4].textContent,
+                    usage: row.cells[5].textContent,
+                    note: row.cells[6].textContent,
+                };
+                medicines.push(medicineData);
+            }
+             console.log(medicines);
+             
+
+            const prescriptionData = {
+                EntryType:entryType,
+                EntryNo:entryNo,
+                UHID:uhid,
+                ConsultBy:consultBy,
+                PatientName:patName,
+                ReferredBy:referredBy,
+                Address:address,
+                Disease:disease,
+                Place:place,
+                CellNo:cellNo,
+                Sex:sex,
+                Age:age,
+                BloodGroup:bloodGroup,
+                TotalQty:totalQty,
+                NextVisitAfter:nextVisitAfter,
+                NextVisitDate:nextvisitdate,
+            };
+            const clientInfo=[{
+                contact:"+919786172510",
+                time:1
+            }]
+            const payload = {
+                titleMessage:"prescrition title msg",
+                subtitleMessage:"subtitle msg",
+                clients:clientInfo,
+                time:5
+            };
+
+            // Send the data to the server
+            fetch('http://localhost:3000/api/patients', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(prescriptionData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Prescription saved successfully!');
+                // Optionally, clear the form or redirect to another page
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while saving the prescription.');
+            });
+
+            // Sending the selected data to the backend via fetch API
+            fetch('http://localhost:3000/api/send-notification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Notification sent successfully!');
+            })
+            .catch((error) => {
+                console.log('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

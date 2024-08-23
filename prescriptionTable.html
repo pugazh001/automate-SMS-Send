@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Records</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .container-fluid {
+            height: 100%;
+            padding: 20px;
+        }
+        .card {
+            height: 100%;
+            width: 100%;
+        }
+        .table-responsive {
+            height: calc(100% - 60px); /* Adjust for header height */
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+        table th, table td {
+            text-align: center;
+            vertical-align: middle;
+            font-size: 0.9rem; /* Adjust font size for readability */
+        }
+        .action-icons {
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Patient Records</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Entry No</th>
+                                <th>UHID</th>
+                                <th>Place</th>
+                                <th>Patient Name</th>
+                                <th>Sex</th>
+                                <th>Age</th>
+                                <th>Consult Dr. Name</th>
+                                <th>ReferredBy</th>
+                                <th>Disease</th>
+                                <th>BloodGroup</th>
+                                <th>Cell No</th>
+                                <th>Reminder Date</th>
+                                <th>Next Visit Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patientTableBody">
+                            <!-- Rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('http://localhost:3000/api/patients')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('patientTableBody');
+                    data.forEach((patient, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${patient.EntryNo}</td>
+                            <td>${patient.UHID}</td>
+                            <td>${patient.Place}</td>
+                            <td>${patient.PatientName}</td>
+                            <td>${patient.Sex}</td>
+                            <td>${patient.Age}</td>
+                            <td>${patient.ConsultBy}</td>
+                            <td>${patient.ReferredBy}</td>
+                            <td>${patient.Disease}</td>
+                            <td>${patient.BloodGroup}</td>
+                            <td>${patient.CellNo}</td>
+                            <td>${patient.NextVisitAfter}</td>
+                            <td>${new Date(patient.NextVisitDate).toLocaleDateString()}</td>
+                            <td>
+                                <span class="action-icons" title="View" onclick="handleView('${patient.EntryNo}')">&#128065;</span>
+                                <span class="action-icons" title="Edit" onclick="handleEdit('${patient.EntryNo}')">&#9998;</span>
+                                 <span class="action-icons" title="Delete">&#128465;</span>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching patient data:', error));
+        });
+
+        function handleView(entryNo) {
+            // Open the view page and pass the entryNo as a query parameter
+            window.location.href = `prescription.html?entryNo=${entryNo}`;
+        }
+
+        function handleEdit(entryNo) {
+            // Open the edit page and pass the entryNo as a query parameter
+            window.location.href = `prescription.html?entryNo=${entryNo}`;
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
